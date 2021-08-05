@@ -1,0 +1,11 @@
+apiVersion: security.istio.io/v1beta1
+kind: AuthorizationPolicy
+metadata:
+  name: default
+  namespace: kubeflow-user-example-com
+spec:
+ rules:
+  - to:
+    - operation:
+        methods: ["GET","POST"]
+        paths: ["/v1/models/*"]
