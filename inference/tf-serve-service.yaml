@@ -1,0 +1,20 @@
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app: dogs-vs-cats
+  name: dogs-vs-cats-service
+  namespace: kubeflow-user-example-com
+spec:
+  ports:
+  - name: http-tf-serving
+    port: 8500
+    targetPort: 8500
+    nodePort: 31000
+  - name: grpc-tf-serving
+    port: 9000
+    targetPort: 9000
+    nodePort: 31001    
+  selector:
+    app: dogs-vs-cats
+  type: NodePort
