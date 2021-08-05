@@ -1,1 +1,1 @@
-# kubeflow-notebook-tutorial
+# kubeflow Jupyter Notebook Server Tutorial
