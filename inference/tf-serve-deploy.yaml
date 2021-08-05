@@ -1,0 +1,43 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: dogs-vs-cats
+  name: dogs-vs-cats-v1
+  namespace: kubeflow-user-example-com
+spec:
+  selector:
+    matchLabels:
+      app: dogs-vs-cats
+  template:
+    metadata:
+      labels:
+        app: dogs-vs-cats
+        version: v1
+    spec:
+      containers:
+      - args:
+        - --port=9000
+        - --rest_api_port=8500
+        - --model_name=dogs-vs-cats
+        - --model_base_path=/models
+        command:
+        - /usr/bin/tensorflow_model_server
+        image: tensorflow/serving:latest
+        imagePullPolicy: IfNotPresent
+        livenessProbe:
+          initialDelaySeconds: 30
+          periodSeconds: 30
+          tcpSocket:
+            port: 9000
+        name: dogs-vs-cats
+        ports:
+        - containerPort: 9000
+        - containerPort: 8500
+        volumeMounts:
+        - mountPath: /models
+          name: model-serve-storage
+      volumes:
+        - name: model-serve-storage
+          persistentVolumeClaim:
+            claimName: models
